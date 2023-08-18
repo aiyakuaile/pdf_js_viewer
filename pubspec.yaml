@@ -1,7 +1,8 @@
 name: pdf_js_viewer
 description: a pdf viewer base pdf.js for flutter.
 version: 1.0.0
-homepage:
+homepage: https://github.com/aiyakuaile/pdf_js_viewer
+repository: https://github.com/aiyakuaile/pdf_js_viewer
 
 environment:
   sdk: ">=2.18.0 <4.0.0"
