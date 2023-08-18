@@ -11,7 +11,8 @@ class PDFViewerWidget extends StatefulWidget {
   /// support file path，http link
   final String? filePath;
   final Uint8List? fileData;
-  const PDFViewerWidget({super.key, this.filePath,this.fileData}):assert(filePath != null || fileData != null);
+  final bool clearCache;
+  const PDFViewerWidget({super.key, this.filePath,this.fileData,this.clearCache = false}):assert(filePath != null || fileData != null);
 
   @override
   State<PDFViewerWidget> createState() => _PDFViewerWidgetState();
@@ -105,10 +106,22 @@ class _PDFViewerWidgetState extends State<PDFViewerWidget> {
     return route;
   }
 
+  @override
+  void didUpdateWidget(covariant PDFViewerWidget oldWidget) {
+    if(widget.filePath != oldWidget.filePath || widget.fileData != oldWidget.fileData){
+      _controller.reload();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
 
   @override
   void dispose() {
     server.close();
+    if(widget.clearCache){
+      _controller.clearCache();
+      _controller.clearLocalStorage();
+    }
     super.dispose();
   }
 
