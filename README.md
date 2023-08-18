@@ -1,6 +1,6 @@
 ## Features
-
-Based on the PDF file browser encapsulated in pdf.js, this plugin can help you find out how the PDF you are using cannot display relevant information such as signatures.
+_web side not supported_
+Based on the PDF file browser encapsulated in **pdf.js**, this plugin can help you find out how the PDF you are using cannot display relevant information such as signatures.
 
 ## Getting started
 
@@ -10,7 +10,7 @@ import 'package:pdf_js_viewer/pdf_js_viewer.dart';
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
+Include short and useful examples for package users. Add longer examples
 to `/example` folder.
 
 ```dart
