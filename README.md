@@ -1,5 +1,5 @@
 ## Features
-_web side not supported_
+**only support android and iOS**,
 Based on the PDF file browser encapsulated in **pdf.js**, this plugin can help you find out how the PDF you are using cannot display relevant information such as signatures.
 
 ## Getting started
