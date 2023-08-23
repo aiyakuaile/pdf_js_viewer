@@ -14,19 +14,10 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('PDF Detail'),),
-      // body: PDFViewerWidget(fileData: data),
-      // body: PDFViewerWidget(filePath: path),
       // body: PDFViewerWidget.data(data),
       // body: PDFViewerWidget.file(path),
-      body: FutureBuilder(
-          future: rootBundle.load('assets/compressed.pdf'),
-          builder: (BuildContext context, AsyncSnapshot<ByteData> snapshot){
-        if(snapshot.hasData){
-          return PDFViewerWidget.data(Uint8List.view(snapshot.data!.buffer));
-        }else{
-          return const Center(child: Text('加载中...'),);
-        }
-      }),
+      // body: PDFViewerWidget.network(path),
+      body: PDFViewerWidget.assets('assets/compressed.pdf'),
     );
   }
 }

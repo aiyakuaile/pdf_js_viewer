@@ -9,3 +9,13 @@
 ## 1.0.2
 
 * support hot reload,Improve example
+
+## 1.0.3
+
+* support assets pdf path to load
+* Replace net with network
+* Disable default initialization method
+* support PDFViewerWidget.data
+* support PDFViewerWidget.network
+* support PDFViewerWidget.file
+* support PDFViewerWidget.assets

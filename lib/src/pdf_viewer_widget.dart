@@ -8,36 +8,40 @@ import 'package:jaguar/jaguar.dart';
 import 'package:http/http.dart' as http;
 
 class PDFViewerWidget extends StatefulWidget {
-  /// support file path，http link
+  /// support assets path, file path，http link
   final String? filePath;
+  /// isAssets default false
+  /// isAssets is true,filePath != null
+  /// use rootBundle.load(widget.filePath!)
+  final bool isAssets;
   final Uint8List? fileData;
+  /// exit page to clear webView cache,default true
   final bool clearCache;
-  const PDFViewerWidget({super.key, this.filePath,this.fileData,this.clearCache = false}):assert(filePath != null || fileData != null);
+  const PDFViewerWidget._({super.key, this.filePath,this.fileData,this.isAssets = false,this.clearCache = true}):assert(filePath != null || fileData != null);
 
   @override
   State<PDFViewerWidget> createState() => _PDFViewerWidgetState();
 
-  factory PDFViewerWidget.data(Uint8List data){
-    return PDFViewerWidget(fileData:data);
+  factory PDFViewerWidget.data(Uint8List data,[bool clearCache = true,Key? key]){
+    return PDFViewerWidget._(fileData:data,clearCache: clearCache,key: key,);
   }
 
-  factory PDFViewerWidget.network(String url){
-    return PDFViewerWidget(filePath:url);
+  factory PDFViewerWidget.network(String url,[bool clearCache = true,Key? key]){
+    return PDFViewerWidget._(filePath:url,clearCache: clearCache,key: key,);
   }
 
-  factory PDFViewerWidget.file(String absolutePath){
-    return PDFViewerWidget(filePath:absolutePath);
+  factory PDFViewerWidget.file(String absolutePath,[bool clearCache = true,Key? key]){
+    return PDFViewerWidget._(filePath:absolutePath,clearCache: clearCache,key: key,);
+  }
+
+  factory PDFViewerWidget.assets(String asset,[bool clearCache = true,Key? key]){
+    return PDFViewerWidget._(filePath:asset,isAssets: true,clearCache: clearCache,key: key,);
   }
 }
 
 class _PDFViewerWidgetState extends State<PDFViewerWidget> {
   final server = Jaguar(port: 31211);
-  late final WebViewController _controller = WebViewController()
-    ..setJavaScriptMode(JavaScriptMode.unrestricted);
-
-  _loadPdfFile() async {
-    await _controller.loadRequest(Uri.parse('http://127.0.0.1:31211/pdfjs/web/viewer.html?file=/api/intercept'));
-  }
+  late final WebViewController _controller = WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted);
 
   @override
   void initState() {
@@ -53,11 +57,16 @@ class _PDFViewerWidgetState extends State<PDFViewerWidget> {
         log('Processing Uint8List data：：：：',name: 'pdf_js_viewer');
         bytes = widget.fileData!;
       }else if(widget.filePath!.startsWith('http')) {
-        log('Processing Net data：：：：',name: 'pdf_js_viewer');
+        log('Processing Network data：：：：',name: 'pdf_js_viewer');
         final response = await http.get(Uri.parse(widget.filePath!));
         if(response.statusCode == 200){
           bytes = response.bodyBytes;
         }
+      }else if(widget.isAssets){
+        log('Processing Assets data：：：：',name: 'pdf_js_viewer');
+         assert(widget.filePath != null);
+         final byteData = await rootBundle.load(widget.filePath!);
+         bytes = Uint8List.view(byteData.buffer);
       }else{
         log('Processing File data：：：：',name: 'pdf_js_viewer');
         bytes = await File(widget.filePath!).readAsBytes();
@@ -65,7 +74,9 @@ class _PDFViewerWidgetState extends State<PDFViewerWidget> {
       return ByteResponse(body: bytes, mimeType: 'application/pdf ');
     });
     await server.serve();
-    _loadPdfFile();
+    Future.delayed(Duration.zero,(){
+      _controller.loadRequest(Uri.parse('http://127.0.0.1:31211/pdfjs/web/viewer.html?file=/api/intercept'));
+    });
   }
 
   Route _serveFlutterAssets(
@@ -108,7 +119,7 @@ class _PDFViewerWidgetState extends State<PDFViewerWidget> {
 
   @override
   void didUpdateWidget(covariant PDFViewerWidget oldWidget) {
-    if(widget.filePath != oldWidget.filePath || widget.fileData != oldWidget.fileData){
+    if(widget.filePath != oldWidget.filePath || widget.fileData != oldWidget.fileData || widget.isAssets != oldWidget.isAssets){
       _controller.reload();
     }
     super.didUpdateWidget(oldWidget);

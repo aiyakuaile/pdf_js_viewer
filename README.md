@@ -29,10 +29,10 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('PDF Detail'),),
-      // body: PDFViewerWidget(fileData: data),
-      // body: PDFViewerWidget(filePath: path),
       // body: PDFViewerWidget.data(data),
       // body: PDFViewerWidget.file(path),
+      // body: PDFViewerWidget.network(path),
+      // body: PDFViewerWidget.assets(path),
     );
   }
 }

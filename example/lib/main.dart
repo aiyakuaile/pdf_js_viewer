@@ -50,11 +50,11 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextButton(onPressed: (){
+            OutlinedButton(onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (ctx){
                 return const PdfViewerPage();
               }));
-            }, child: const Text('打开pdf'))
+            }, child: const Text('Open PDF Detail Page'))
           ],
     ),
       ),
