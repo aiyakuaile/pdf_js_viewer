@@ -19,3 +19,8 @@
 * support PDFViewerWidget.network
 * support PDFViewerWidget.file
 * support PDFViewerWidget.assets
+
+## 1.0.4
+
+* Use random port numbers
+* Adjust example
