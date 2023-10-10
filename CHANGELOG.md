@@ -24,3 +24,8 @@
 
 * Use random port numbers
 * Adjust example
+
+## 1.0.5
+
+* Using a lower version of pdf.js，enhance browser compatibility
+* current version : **pdfjs-2.12.313-legacy**
