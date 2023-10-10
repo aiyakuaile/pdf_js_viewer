@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
-
+import 'dart:math' hide log;
 import 'package:flutter/material.dart' hide Route;
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -40,13 +40,19 @@ class PDFViewerWidget extends StatefulWidget {
 }
 
 class _PDFViewerWidgetState extends State<PDFViewerWidget> {
-  final server = Jaguar(port: 31211);
+  late Jaguar server;
   late final WebViewController _controller = WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted);
-
+  late final String interceptUrl;
   @override
   void initState() {
-    super.initState();
+    final random = Random();
+    const minPort = 10000;
+    const maxPort = 65535;
+    int randomPort = minPort + random.nextInt(maxPort - minPort + 1);
+    interceptUrl = 'http://127.0.0.1:$randomPort/pdfjs/web/viewer.html?file=/api/intercept';
+    server = Jaguar(port: randomPort);
     _startServer();
+    super.initState();
   }
 
   _startServer()async{
@@ -75,7 +81,7 @@ class _PDFViewerWidgetState extends State<PDFViewerWidget> {
     });
     await server.serve();
     Future.delayed(Duration.zero,(){
-      _controller.loadRequest(Uri.parse('http://127.0.0.1:31211/pdfjs/web/viewer.html?file=/api/intercept'));
+      _controller.loadRequest(Uri.parse(interceptUrl));
     });
   }
 
