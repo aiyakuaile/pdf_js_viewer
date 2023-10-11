@@ -8,6 +8,34 @@ Based on the PDF file browser encapsulated in **pdf.js**, this plugin can help y
 import 'package:pdf_js_viewer/pdf_js_viewer.dart';
 ```
 
+## iOS config
+```
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+```
+
+## android config 
+
+AndroidManifest.xml requires configuring HTTP access permissions
+
+```
+<uses-permission android:name="android.permission.INTERNET" />
+```
+```
+   <application
+        android:usesCleartextTraffic="true"
+        ......
+
+  or custom network_security_config.xml in res/xml directory
+
+   <application
+        android:networkSecurityConfig="@xml/network_security_config"
+        ...... 
+```
+
 ## Usage
 
 Include short and useful examples for package users. Add longer examples
