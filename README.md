@@ -8,13 +8,13 @@ Based on the PDF file browser encapsulated in **pdf.js**, this plugin can help y
 import 'package:pdf_js_viewer/pdf_js_viewer.dart';
 ```
 
-## iOS config
+## iOS config ATS for info.plist file
 ```
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
+<key>NSAppTransportSecurity</key>
+<dict>
+   <key>NSAllowsArbitraryLoads</key>
+    <true/>
+</dict>
 ```
 
 ## android config 
