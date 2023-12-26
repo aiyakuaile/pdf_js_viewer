@@ -1,9 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:pdf_viewer/pdf_viewer_page.dart';
-import 'package:http/http.dart' as http;
-import 'package:connectivity_plus/connectivity_plus.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,33 +38,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late StreamSubscription<ConnectivityResult> subscription;
-  String _connectionStatus = 'Unknown';
-  @override
-  void initState() {
-    super.initState();
-    subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      setState(() {
-        _connectionStatus = result.toString();
-      });
-    });
-    Future.delayed(const Duration(milliseconds: 300),_testHttp);
-  }
-
-  // test http
-  _testHttp(){
-    http.get(Uri.parse('https://www.baidu.com')).then((value){
-      print('http请求成功');
-    }).catchError((e){
-      print('http请求错误：$e');
-    });
-  }
-
-  @override
-  void dispose() {
-    subscription.cancel();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +51,6 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('网络状态：$_connectionStatus'),
             const SizedBox(height: 30),
             OutlinedButton(onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (ctx){
