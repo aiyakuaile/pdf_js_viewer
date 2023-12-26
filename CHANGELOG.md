@@ -29,3 +29,7 @@
 
 * Using a lower version of pdf.js，enhance browser compatibility
 * current version : **pdfjs-2.12.313-legacy**
+
+## 1.0.6
+
+* ui display fine-tuning
