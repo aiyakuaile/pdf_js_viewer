@@ -1122,6 +1122,14 @@ html[dir="rtl"] #sidebarContent {
   transition-timing-function: var(--sidebar-transition-timing-function);
 }
 
+#viewerContainer.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+#viewerContainer.no-scrollbar {
+  scrollbar-width: none;
+}
+
 #outerContainer.sidebarResizing #viewerContainer {
   /* Improve responsiveness and avoid visual glitches when the sidebar is resized. */
   transition-duration: 0s;

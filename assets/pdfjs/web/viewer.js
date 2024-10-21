@@ -1338,6 +1338,11 @@ var PDFViewerApplication = {
               loadingTask.onUnsupportedFeature = _this7.fallback.bind(_this7);
               return _context8.abrupt("return", loadingTask.promise.then(function (pdfDocument) {
                 _this7.load(pdfDocument);
+                const message = JSON.stringify({
+                  type: "initialized",
+                  data: pdfDocument.numPages
+                })
+                FlutterPDFViewer.postMessage(message);
               }, function (reason) {
                 if (loadingTask !== _this7.pdfLoadingTask) {
                   return undefined;
@@ -2871,6 +2876,7 @@ function webViewerInitialized() {
   var params = (0, _ui_utils.parseQueryString)(queryString);
   file = (_params$get = params.get("file")) !== null && _params$get !== void 0 ? _params$get : _app_options.AppOptions.get("defaultUrl");
   validateFileURL(file);
+  
   var fileInput = document.createElement("input");
   fileInput.id = appConfig.openFileInputName;
   fileInput.className = "fileInput";
@@ -3325,6 +3331,12 @@ function webViewerPageChanging(_ref15) {
   if (PDFViewerApplication.pdfSidebar.isThumbnailViewVisible) {
     PDFViewerApplication.pdfThumbnailViewer.scrollThumbnailIntoView(pageNumber);
   }
+
+  FlutterPDFViewer.postMessage(JSON.stringify({
+    type: "pageChanged",
+    data: pageNumber
+  }));
+  
 }
 
 function webViewerVisibilityChange(evt) {
